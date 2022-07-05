@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link type="text/css" rel="stylesheet" href="CSS.css" />
+	<title>BigBoom</title>
+	<style>
+	</style>
+	<script type="text/javascript" src="JS.js" ></script>
+</head>
+<body>
+	<div id="background">
+		<div id="head">
+			<h1 style="width: 100%;margin-block-end: 0em;">THE BIG BOOM</h1>
+
+			<p style="width: 100%; ">
+				score: 
+				<span id="score">0</span>
+				<button id="init" onclick="init()">重新开始</button><br>
+				<input type="checkbox" id="del" onchange="del_block()">
+				<label for="del">移除一个格子</label>
+				剩余<span id="del_num">3</span>次
+			</p>
+		</div>
+		<div id="main_window"></div>
+
+		<div id="rules">
+			<p>
+				规则：<br><br>
+				点击格子，同色且连通的格子会合并到该格子上，格子上的数字会变成所有合并的数字之和。其他格子则会下落以填补空位。无可合并时游戏结束。<br><br>
+				当数字大于100时会变成金色格子，金色格子不可合并。<br><br>
+				每合成一个金色格子，可增加一次移除次数。<br><br>
+				得分计算公式：
+				score = value + block_num + (2 ^ (block_num/5))<br>结果向下取整。<br><br>
+				移除格子会扣除等同于该格数字的分数。
+			</p>
+		</div>
+	</div>
+<script>
+	let box = document.getElementById("main_window");
+	let content = "";
+	for (let i = 5; i >= 0; i--){
+		for (let j = 0; j < 6; j++){
+			content += `<button class="blocks" id="${j}${i}" onclick="choose(${j}, ${i})"></button>`;
+		}
+	}
+	box.innerHTML = content;
+
+	init();
+</script>
+</body>
+</html>
