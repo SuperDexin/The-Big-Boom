@@ -71,18 +71,18 @@ function choose(x, y){
 	obj.exist = true;
 
 	if (num > 1){
-		score += final_value + num + Math.floor(2 ** (num/5));
-		document.getElementById("score").innerHTML = score;
+		score += final_value + num + (2 ** Math.floor(num/3)) - 1;
 
 		if (final_value > 100){
 		obj.color = 4;
 		score += obj.value;
-		document.getElementById("score").innerHTML = score;
+		
 		del_num += 1;
 		document.getElementById("del_num").innerHTML = del_num;
 		document.getElementById("del").disabled = false;
 		}
 
+		document.getElementById("score").innerHTML = score;
 		obj.value = final_value;
 		refresh_block();
 	}
@@ -160,18 +160,19 @@ function remove_block(x, y){
 	if(window.confirm(`你确定要删除这个 ${colors_cn[obj.color]}色 的 ${obj.value} 吗？`)){
 		obj.exist = false;
 		score -= obj.value;
+		if(obj.color == 4) score -= obj.value;
 		if (score < 0) score = 0;
 		document.getElementById("score").innerHTML = score;
 		refresh_block();
 		del_num -= 1;
 		document.getElementById("del_num").innerHTML = del_num;
 		if (del_num == 0){
-			document.getElementById("del").disabled = true;
-			document.getElementById("del").checked = false;	
-			remove_bool = false;	
+			document.getElementById("del").disabled = true;	
 		}
+		document.getElementById("del").checked = false;	
+		remove_bool = false;
+		check_game_over();
 	}
-
 }
 
 function check_game_over(){
@@ -206,4 +207,8 @@ function check_game_over(){
 		alert(`游戏结束！得分 ${score}`);
 	}
 	
+}
+
+function undo(){
+
 }
